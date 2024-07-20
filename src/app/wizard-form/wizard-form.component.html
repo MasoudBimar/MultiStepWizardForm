@@ -1,0 +1,90 @@
+<div>
+  <h1 class="form-heading">{{ stepItems[activeStepIndex]}}</h1>
+
+  <div class="step-wizard">
+    <div class="step-wizard-row">
+      <div class="step-wizard-step" *ngFor="let step of stepItems; let i = index;">
+        <button type="button" mat-flat-button [disabled]="lastActiveStepIndex < i" (click)="jumpToStep(i)">{{i+1}}</button>
+        <p>{{step}}</p>
+      </div>
+    </div>
+  </div>
+
+
+
+  <ng-container *ngFor="let form of masterForm; let i = index; trackBy: trackByFn">
+    <form [formGroup]="masterForm[i]" *ngIf="i === activeStepIndex || masterForm.length === 1" class="example-form">
+      <div class="fields-container">
+        <div *ngFor="let field of formFields[i]; trackBy: trackByFn" [ngSwitch]="currentFormContent[i][field].type">
+          <div class="full-width">
+
+
+            <ng-container *ngSwitchCase="'textarea'">
+              <mat-form-field class="example-full-width">
+                <mat-label class="field-label text-bold">{{ field | formatTitle }}</mat-label>
+                <textarea matInput [id]="field" [formControlName]="field" [placeholder]="currentFormContent[i][field].placeholder"></textarea>
+              </mat-form-field>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'file'">
+              <!-- <input type="file" (change)="onFileChange($event, field)" /> -->
+              <app-file-upload (change)="onFileChange($event, field)"></app-file-upload>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'select'">
+              <mat-form-field class="example-full-width">
+                <mat-label class="field-label text-bold">{{ field | formatTitle }}</mat-label>
+                <mat-select [formControlName]="field" [id]="field">
+                  <mat-option value="">Select your Country</mat-option>
+                  <mat-option *ngFor="let option of currentFormContent[i][field].options; trackBy: trackByFn" [value]="option.key">{{ option.value
+                    }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'date'">
+              <mat-form-field class="example-full-width">
+                <mat-label class="field-label text-bold">{{ field | formatTitle }}</mat-label>
+                <input matInput type="date" [formControlName]="field" [id]="field" [matDatepicker]="picker"
+                  [placeholder]="currentFormContent[i][field].placeholder" />
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </ng-container>
+
+            <ng-container *ngSwitchDefault>
+              <mat-form-field class="example-full-width">
+                <mat-label class="field-label text-bold">{{ field | formatTitle }}</mat-label>
+                <input matInput [type]="currentFormContent[i][field].type" [formControlName]="field" [id]="field"
+                  [placeholder]="currentFormContent[i][field].placeholder" />
+              </mat-form-field>
+            </ng-container>
+          </div>
+
+          <p class="validation-error" *ngIf="(masterForm[i].get(field)?.dirty || masterForm[i].get(field)?.touched) &&
+                      masterForm[i].get(field)?.invalid && masterForm[i].get(field)?.errors">
+            {{ getValidationMessage(i, field) }}
+          </p>
+        </div>
+      </div>
+
+      <div class="preview-container" *ngIf="activeStepIndex === stepItems.length-1">
+        <ul>
+          <li class="form-details-list" *ngFor="let field of masterFormFields; trackBy: trackByFn">
+            <span class="text-bold">{{ field | formatTitle }}</span>
+            <span >{{ formData[field] || 'N/A' }}</span>
+
+          </li>
+        </ul>
+      </div>
+
+      <div class="button-container">
+        <button mat-button type="button" [disabled]="!activeStepIndex" (click)="goToStep('prev')">Previous</button>
+        <button mat-button *ngIf="activeStepIndex === stepItems.length - 1" type="button" (click)="onFormSubmit()">Submit</button>
+        <button mat-button type="button" [disabled]="activeStepIndex === stepItems.length - 1 || masterForm[i].invalid"
+          (click)="goToStep('next')">Next</button>
+      </div>
+    </form>
+  </ng-container>
+</div>
