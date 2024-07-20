@@ -1,15 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { FormatTitlePipe } from '../pipes/form-title.pipe';
-import { Dictionary, WizardFormControl, WizardFormStep } from '../model/model';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { provideNativeDateAdapter } from '@angular/material/core';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatButtonModule } from '@angular/material/button';
 import { FileUploadComponent } from '../file-upload/file-upload.component';
+import { WizardFormControl, WizardFormStep } from '../model/model';
+import { FormatTitlePipe } from '../pipes/form-title.pipe';
 
 @Component({
   selector: 'app-wizard-form',
@@ -31,18 +31,18 @@ import { FileUploadComponent } from '../file-upload/file-upload.component';
   styleUrl: './wizard-form.component.scss'
 })
 export class WizardFormComponent implements OnInit {
-  @Input() formContent: Map<string, WizardFormStep> = new Map();
+  @Input() formContent: Map<string, WizardFormStep> = new Map<string, WizardFormStep>();
 
   @Output() readonly formSubmit: EventEmitter<any> = new EventEmitter<any>();
 
   activeStepIndex: number = 0;
   lastActiveStepIndex: number = 0;
-  currentFormContent: Array<WizardFormStep> = [];
+  currentFormContent: WizardFormStep[] = [];
   formData: any;
   formFields: Array<Array<keyof WizardFormControl>> = [];
-  masterFormFields: Array<string> = [];
-  stepItems: Array<string> = [];
-  masterForm: Array<FormGroup> = [];
+  masterFormFields: string[] = [];
+  stepItems: string[] = [];
+  masterForm: FormGroup[] = [];
 
   constructor(
     private readonly _formBuilder: FormBuilder,
@@ -51,7 +51,7 @@ export class WizardFormComponent implements OnInit {
 
   ngOnInit() {
     this.stepItems = Array.from(this.formContent.keys());
-    this.formContent.forEach((value: WizardFormStep, key: string, map: Map<string, WizardFormStep>) => {
+    this.formContent.forEach((value: WizardFormStep) => {
       this.currentFormContent.push(value);
       this.formFields.push(Object.keys(value) as Array<keyof WizardFormControl>); // holds string values for each field of all steps
       this.masterForm.push(this.buildForm(value)); // holds all form groups
@@ -92,7 +92,7 @@ export class WizardFormComponent implements OnInit {
 
   // get validation error messages per error, per field
   getValidationMessage(formIndex: number, formFieldName: string): string {
-    let formControl = this.masterForm[formIndex].get(formFieldName)
+    const formControl = this.masterForm[formIndex].get(formFieldName);
     if (formControl) {
       const formErrors = formControl.errors;
       const errorMessages = this.currentFormContent[formIndex][formFieldName]?.errors;

@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, Renderer2 } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
-import { Dictionary, STEP_ITEMS, WizardFormControl, WizardFormStep } from './model/model';
+import { STEP_ITEMS, WizardFormStep } from './model/model';
 import { WizardFormComponent } from './wizard-form/wizard-form.component';
 
 @Component({
@@ -29,7 +29,7 @@ export class AppComponent {
     // post form data here
     console.log(JSON.stringify(this.formData));
   }
-  constructor(private renderer: Renderer2, private fb: FormBuilder) {
+  constructor() {
 
   }
 
