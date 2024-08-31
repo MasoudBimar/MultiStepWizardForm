@@ -1,0 +1,24 @@
+@use "./mixins";
+
+$base-font-family: "Ubuntu", sans-serif;
+$base-font-weight: 400;
+$base-font-size: 1rem;
+
+@mixin font($weight, $src, $fontFamily: $base-font-family) {
+  @font-face {
+    font-family: $fontFamily;
+    font-style: normal;
+    font-weight: $weight;
+    src: mixins.fontUrl($src);
+  }
+}
+
+@include font(400, "Ubuntu-Regular.ttf");
+@include font(500, "Ubuntu-Medium.ttf");
+@include font(700, "Ubuntu-Bold.ttf");
+
+@mixin base-font {
+  font-family: $base-font-family;
+  font-weight: $base-font-weight;
+  font-size: $base-font-size;
+}

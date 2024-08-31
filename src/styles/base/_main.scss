@@ -1,0 +1,29 @@
+.main-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.main-section__instructions {
+  color: var(--cool-gray);
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.main-section__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.main-section__title {
+  color: var(--marine-blue);
+  font-weight: 700;
+  font-size: x-large;
+}
+
+@media screen and (min-width: 1440px) {
+  .main-section__title {
+    font-size: xx-large;
+  }
+}

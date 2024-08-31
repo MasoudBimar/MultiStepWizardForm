@@ -1,0 +1,25 @@
+@use "./reset";
+
+@use "./colors";
+@use "./mixins";
+@use "./fonts";
+@use "./base";
+
+:root {
+  --marine-blue: #{colors.$marine-blue};
+  --purplish-blue: #{colors.$purplish-blue};
+  --pastel-blue: #{colors.$pastel-blue};
+  --light-blue: #{colors.$light-blue};
+  --strawberry-red: #{colors.$strawberry-red};
+
+  --cool-gray: #{colors.$cool-gray};
+  --light-gray: #{colors.$light-gray};
+  --magnolia: #{colors.$magnolia};
+  --alabaster: #{colors.$alabaster};
+  --white: #{colors.$white};
+}
+
+body {
+  @include fonts.base-font;
+  background-color: var(--magnolia);
+}

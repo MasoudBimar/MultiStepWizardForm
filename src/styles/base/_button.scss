@@ -1,0 +1,40 @@
+@use "../mixins";
+
+.button {
+  background-color: var(--marine-blue);
+  color: var(--magnolia);
+  padding: 0.65rem 1.3rem;
+  border-width: 0;
+  border-radius: 5px;
+  font-weight: 700;
+  font-size: small;
+  height: fit-content;
+}
+
+.button:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.button_basic {
+  background-color: transparent;
+  color: var(--cool-gray);
+  padding: 0;
+  border: none;
+  width: auto;
+  height: auto;
+}
+
+.button_basic:hover {
+  color: var(--marine-blue);
+}
+
+@include mixins.largeScreen {
+  .button {
+    font-size: medium;
+  }
+
+  .button_basic {
+    font-size: medium;
+  }
+}

@@ -33,7 +33,7 @@ const CITY_LIST = [
 
 const DATA_STEP_1: WizardFormStep = {
   'firstName': { type: 'text', validations: [Validators.required], errors: { 'required': 'This field can not be left blank' }, placeholder: 'First Name' },
-  'lastName': { type: 'text', validations: [], errors: {}, placeholder: 'Last Name' },
+  'lastName': { type: 'text', validations: [Validators.required], errors: {'required': 'This field can not be left blank'}, placeholder: 'Last Name' },
   'socialSecurityNumber': { type: 'text', validations: [], errors: {}, placeholder: 'Social Security Number' },
 };
 

@@ -1,0 +1,17 @@
+@function fontUrl($fileName) {
+  @return assetUrl("fonts", $fileName);
+}
+
+@function imageUrl($fileName) {
+  @return assetUrl("images", $fileName);
+}
+
+@function assetUrl($baseDir, $fileName) {
+  @return url("../assets/" + $baseDir + "/" + $fileName);
+}
+
+@mixin largeScreen {
+  @media screen and (min-width: 1440px) {
+    @content;
+  }
+}
